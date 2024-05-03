@@ -2,25 +2,9 @@
 import Input from "@/components/Input";
 import axios from "axios";
 import Ripple from "material-ripple-effects";
-import Link from "next/link";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Toaster, toast } from "react-hot-toast";
-
-const socialJson = [
-  {
-    icon: "bx bxl-instagram",
-    link: "https://www.instagram.com/scriptwithahmad",
-  },
-  {
-    icon: "bx bxl-github",
-    link: "https://github.com/scriptwithahmad",
-  },
-  {
-    icon: "bx bxl-linkedin",
-    link: "https://pk.linkedin.com/in/muhammad-ahmad-6b4303264",
-  },
-];
 
 const Page = () => {
   const ripple = new Ripple();
@@ -36,7 +20,7 @@ const Page = () => {
       console.log(res?.data?.success);
 
       if (res?.data?.success) {
-        toast.success("Query Submited");
+        toast.success("User Authorized 👋");
         reset();
       }
     } catch (error) {

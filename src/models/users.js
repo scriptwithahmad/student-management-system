@@ -16,6 +16,10 @@ const userModel = new mongoose.Schema({
     type: String,
     required: [true, "Password Required!"],
   },
+  avatar: {
+    type: String,
+    required: [true, "Image Required!"],
+  },
 });
 
 export default mongoose?.models?.users || mongoose.model("users", userModel);
