@@ -1,3 +1,69 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Input Desig */
+
+.custom-field {
+  position: relative;
+  font-size: 14px;
+  margin-bottom: 5px;
+  border-radius: 50px;
+  display: inline-block;
+  --field-padding: 14px;
+}
+
+.custom-field input {
+  border: none;
+  -webkit-appearance: none;
+  -ms-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  padding: var(--field-padding);
+  border-radius: 50px;
+  min-width: 350px;
+  outline: none;
+  font-size: 12px;
+}
+
+.custom-field .placeholder {
+  position: absolute;
+  left: var(--field-padding);
+  width: calc(100% - (var(--field-padding) * 2));
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  top: 22px;
+  line-height: 100%;
+  transform: translateY(-50%);
+  color: #aaa;
+  transition: top 0.3s ease, color 0.4s ease, font-size 0.3s ease;
+}
+
+/* ONE */
+.custom-field.one input {
+  background: #eee;
+  transition: border-color 0.3s ease;
+}
+
+.custom-field.one input + .placeholder {
+  left: 8px;
+  padding: 0 5px;
+}
+
+.custom-field.one input.dirty,
+.custom-field.one input:not(:placeholder-shown),
+.custom-field.one input:focus {
+  background: #f3f4f6;
+  /* transition-delay: 0.1s; */
+}
+
+.custom-field.one input.dirty + .placeholder,
+.custom-field.one input:not(:placeholder-shown) + .placeholder,
+.custom-field.one input:focus + .placeholder {
+  top: 0;
+  font-size: 10px;
+  color: #777;
+  background: #fff;
+  width: auto;
+}
