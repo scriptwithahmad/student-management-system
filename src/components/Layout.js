@@ -4,6 +4,7 @@ import Link from "next/link";
 import Aside from "./Aside";
 import Dnav from "./Dnav";
 import { usePathname } from "next/navigation";
+import { Toaster, toast } from "react-hot-toast";
 
 export default function Layout({ children }) {
   const pathname = usePathname();
@@ -13,6 +14,7 @@ export default function Layout({ children }) {
 
   return (
     <>
+      <Toaster />
       <Head>
         <link
           rel="icon"

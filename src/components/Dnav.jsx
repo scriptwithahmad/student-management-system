@@ -1,7 +1,27 @@
-import Image from "next/image";
+"use client";
+import { AuthContext } from "@/context/AuthContext";
+import axios from "axios";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useContext } from "react";
 
 const Dnav = () => {
+  const { user } = useContext(AuthContext);
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    try {
+      const confirmLogout = window.confirm("Are you sure you want to logout?");
+      if (!confirmLogout) return;
+      const res = await axios.post("/api/users/logout");
+      if (res.data.success) {
+        router.push("/login");
+      }
+    } catch (error) {
+      console.error("Logout failed", error);
+    }
+  };
+
   return (
     <>
       <div className="relative">
@@ -13,11 +33,10 @@ const Dnav = () => {
             ></i>
             <div className="flex items-center">
               <Link href="/" className="flex-none">
-                <Image
-                  width={600}
-                  height={600}
-                  src="/ulogo.png"
-                  className="mx-auto w-[100px] mt-2"
+                <img
+                  alt="Image Here"
+                  className="mx-auto w-12 mt-2"
+                  src="https://res.cloudinary.com/dmyrswz0r/image/upload/v1713427098/blog-image/favicon_jcqo9l.png"
                 />
               </Link>
             </div>
@@ -28,13 +47,15 @@ const Dnav = () => {
               <div className="flex py-2 group relative items-center gap-2 pr-4">
                 <img
                   alt="image here"
-                  src={"/user.jpeg"}
+                  src={user?.avatar}
                   className="rounded-full h-9 w-9 object-cover cursor-pointer border border-gray-300"
                 />
                 <div className="leading-3">
-                  <p className="text-[14px] capitalize font-medium">M Ahmad</p>
+                  <p className="text-[14px] capitalize font-medium">
+                    {user?.fullName}
+                  </p>
                   <span className="text-[11px] cursor-pointer text-red-500 hover:text-red-600">
-                    Admin
+                    {user?.userName}
                   </span>
                 </div>
 
@@ -56,7 +77,10 @@ const Dnav = () => {
                       >
                         <i className="fa-solid fa-gear"></i> Setting
                       </Link>
-                      <button className="text-xs text-gray-600 hover:text-blue-600 flex items-center gap-2">
+                      <button
+                        onClick={handleLogout}
+                        className="text-xs text-gray-600 hover:text-blue-600 flex items-center gap-2"
+                      >
                         <i className="fa-solid fa-arrow-right-from-bracket"></i>{" "}
                         Logout
                       </button>
@@ -98,7 +122,10 @@ const Dnav = () => {
                       >
                         <i className="fa-solid fa-gear"></i> Setting
                       </Link>
-                      <button className="text-xs text-gray-600 hover:text-blue-600 flex items-center gap-2">
+                      <button
+                        onClick={handleLogout}
+                        className="text-xs text-gray-600 hover:text-blue-600 flex items-center gap-2"
+                      >
                         <i className="fa-solid fa-gear"></i> Logout
                       </button>
                     </li>

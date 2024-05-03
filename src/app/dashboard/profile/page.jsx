@@ -1,6 +1,11 @@
+"use client";
+import { AuthContext } from "@/context/AuthContext";
 import Link from "next/link";
+import { useContext } from "react";
 
 const Page = () => {
+  const { user } = useContext(AuthContext);
+
   return (
     <>
       <div className="bg-white relative mt-4 max-w-5xl m-auto rounded-lg">
@@ -26,7 +31,7 @@ const Page = () => {
                 <div className="h-fit w-fit border-[10px] border-[#eeeeee9c] rounded-full max-w-full m-auto">
                   <img
                     alt="image here"
-                    src={"/user.jpeg"}
+                    src={user?.avatar}
                     className="h-60 w-60 border-[10px] object-cover border-[#c9c9c9cc] rounded-full"
                   />
                 </div>
@@ -35,10 +40,10 @@ const Page = () => {
               {/* Full Name ----------------------------------------------- */}
               <div className="flex items-center justify-center flex-col mt-6">
                 <h1 className="capitalize text-3xl mb-3 text-slate-800 font-bold tracking-wider">
-                  M Ahmad
+                  {user?.fullName || "M Ahmad"}
                 </h1>
                 <h2 className="text-[#6c757d] text-xs uppercase tracking-wide">
-                  @Ahmad
+                  {user?.userName || "@Ahmad"}
                 </h2>
               </div>
               {/* Inner Divs ----------------------------------------------- */}

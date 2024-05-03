@@ -20,6 +20,11 @@ const userModel = new mongoose.Schema({
     type: String,
     required: [true, "Image Required!"],
   },
+  isAdmin: {
+    type: Boolean,
+    default: false,
+    required: [true, "Is Admin Field is Required!"],
+  },
 });
 
 export default mongoose?.models?.users || mongoose.model("users", userModel);
