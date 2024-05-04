@@ -5,11 +5,11 @@ import { useEffect, useState } from "react";
 // ASIDE LINKS ADDED
 var adminNavLinks = [
   { href: "/dashboard", lable: "Dashboard", icon: "fa-solid fa-chart-simple" },
-  { href: "/dashboard/category", lable: "Category", icon: "fa-solid fa-list" },
+  { href: "/dashboard/batch", lable: "Batch", icon: "fa-solid fa-list" },
 
   {
-    href: "/dashboard/orders",
-    lable: "Orders",
+    href: "/dashboard/students",
+    lable: "Students",
     icon: "fa-regular fa-calendar",
   },
 ];
