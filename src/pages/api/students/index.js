@@ -49,7 +49,9 @@ export default async function handler(req, res) {
       break;
     case "GET":
       try {
-        const user = await studentsModel.find();
+        const user = await studentsModel
+          .find()
+          .populate("userBatchDetails", "batchName userName");
 
         res.status(200).json({
           success: true,

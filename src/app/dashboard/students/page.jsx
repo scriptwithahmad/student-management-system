@@ -10,7 +10,7 @@ import { format, render, cancel, register } from "timeago.js";
 const tableHeader = [
   { lable: "Name", align: "left" },
   { lable: "Details", align: "left" },
-  { lable: "Email", align: "left" },
+  { lable: "Batch", align: "left" },
   { lable: "Actions", align: "center" },
 ];
 
@@ -19,24 +19,6 @@ const Page = () => {
   const { register, handleSubmit, reset } = useForm();
   const [showModal, setShowModal] = useState(false);
   const [studentData, setStudentData] = useState([]);
-
-  const onSubmit = async (e) => {
-    setLoading(true);
-    try {
-      var res = await axios.post("/api/students", e);
-
-      if (res?.data?.success) {
-        toast.success("Student Created 👋");
-        reset();
-        setShowModal(false);
-      }
-    } catch (error) {
-      console.log(error?.response?.data?.message);
-      toast.error(error?.response?.data?.message);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   // DELETE STUDENT -------------------------
   // delete Student by Slug ------------------------------------------------------/
@@ -72,9 +54,39 @@ const Page = () => {
     }
   };
 
+  const [batchId, setBatchId] = useState("");
+  const getbatchID = async () => {
+    try {
+      const res = await axios.get("/api/batch/teacher-profile");
+      setBatchId(res?.data?.message);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
+    getbatchID();
     getData();
   }, []);
+
+  const onSubmit = async (e) => {
+    setLoading(true);
+    try {
+      e.userBatchDetails = batchId;
+      var res = await axios.post("/api/students", e);
+
+      if (res?.data?.success) {
+        toast.success("Student Created 👋");
+        reset();
+        setShowModal(false);
+      }
+    } catch (error) {
+      console.log(error?.response?.data?.message);
+      toast.error(error?.response?.data?.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <>
@@ -144,7 +156,10 @@ const Page = () => {
                       <h2>{v?.email}</h2>
                       <h2>{v?.phone}</h2>
                     </td>
-                    <td className="px-6 py-2"> {v?.phone} </td>
+                    <td className="px-6 py-2">
+                      <h1>{v?.userBatchDetails?.batchName}</h1>
+                      <h1>{v?.userBatchDetails?.userName}</h1>
+                    </td>
 
                     <td className="px-6 py-2 text-lg text-center">
                       <button>
