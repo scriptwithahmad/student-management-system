@@ -18,15 +18,12 @@ const Page = () => {
     try {
       var res = await axios.post("/api/users/login", e);
 
-      console.log(res?.data?.success);
-
       if (res?.data?.success) {
         toast.success("User Authorized 👋");
         reset();
-        router.push("/dashboard");
+        window.location.replace("/dashboard");
       }
     } catch (error) {
-      console.log(error?.response?.data?.message);
       toast.error(error?.response?.data?.message);
     } finally {
       setIsLoading(false);

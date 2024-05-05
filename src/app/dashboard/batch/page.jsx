@@ -45,6 +45,30 @@ const Page = () => {
     fetchBatchData();
   }, []);
 
+  // delete Batch by Slug ------------------------------------------------------/
+  const delPost = async (id) => {
+    try {
+      if (window.confirm("Do you wnat to Delete this Batch") === true) {
+        const res = await fetch(`/api/batch/${id}`, {
+          method: "DELETE",
+        });
+
+        if (
+          toast.success("Batch Deleted Successfully!", {
+            duration: 1000,
+          })
+        ) {
+          window.location.reload();
+        } else {
+          toast.error("Something went Wrong");
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error?.message);
+    }
+  };
+
   return (
     <>
       <div className="bg-white max-w-7xl m-auto p-5 rounded-lg my-4">
@@ -79,17 +103,18 @@ const Page = () => {
           </div>
         </form>
 
-        <div className=" mt-6 px-2">
+        <div className="mt-6 px-2">
           {batchData?.map((v, i) => {
             return (
-              <div
-                key={i}
-                className="flex items-center justify-between gap-4 border-b py-2"
-              >
+              <div key={i} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 border-b py-2">
                 <h3 className=" text-slate-600">{v?.batchName} </h3>
                 <h3 className=" text-slate-600">{v?.userName} </h3>
                 <div>
-                  <i className="fa-solid fa-trash-can text-sm text-red-400 hover:text-red-500 cursor-pointer transition"></i>
+                  <i
+                    title="Delete"
+                    onClick={() => delPost(v?._id)}
+                    className="fa-solid fa-trash-can text-sm text-red-400 hover:text-red-500 cursor-pointer transition"
+                  ></i>
                 </div>
               </div>
             );

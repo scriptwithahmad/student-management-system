@@ -42,7 +42,7 @@ const Page = () => {
     <>
       <Toaster />
       {/* Form for contact */}
-      <div className="max-w-[600px] m-auto px-4 py-6 border rounded-lg">
+      <div className="max-w-[600px] m-auto px-4 py-6 border rounded-lg mt-8">
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="flex flex-col gap-6 w-full"

@@ -22,7 +22,7 @@ export default function Home() {
           return (
             <div
               key={i}
-              className="relative h-52 bg-gradient-to-br from-[#8C94DC] to-[#BBDEFF] flex items-center justify-between rounded-lg px-5 py-3"
+              className="relative h-48 bg-gradient-to-br from-[#8C94DC] to-[#BBDEFF] flex items-center justify-between rounded-lg px-5 py-3"
             >
               <div>
                 <p className="text-gray-200 px-1 text-sm uppercase">Login as</p>
@@ -37,7 +37,7 @@ export default function Home() {
                   <i className="fa-solid fa-arrow-right text-gray-500"></i>
                 </Link>
               </div>
-              <div className="w-36 absolute top-4 right-2">
+              <div className="w-32 absolute top-4 right-2">
                 <Image
                   src={v.url}
                   width={900}

@@ -126,11 +126,11 @@ const Page = () => {
                 </div>
                 <i className="absolute top-1/2 -translate-y-1/2 right-3 border-l pl-2 cursor-pointer text-gray-400 hover:text-gray-500 bx bx-search-alt-2"></i>
               </div>
-              <div>
+              <div className="flex items-center justify-center h-8 w-8 bg-blue-500 rounded-full">
                 <i
                   title="Add Student"
                   onClick={() => setShowModal(true)}
-                  className="fa-solid fa-plus rounded-full h-8 w-8 flex items-center justify-center bg-blue-500 text-white transition-all duration-150 cursor-pointer text-sm"
+                  className="fa-solid fa-plus rounded-full text-white transition-all duration-150 cursor-pointer text-sm"
                 ></i>
               </div>
             </div>
@@ -283,7 +283,7 @@ const Page = () => {
         >
           <div className="flex items-center justify-between bg-gray-50 p-4 rounded-lg">
             <h2 className=" text-slate-500 font-semibold text-xl">
-              Add New User
+              Add New Student
             </h2>
             <i
               onClick={() => setShowModal(false)}
