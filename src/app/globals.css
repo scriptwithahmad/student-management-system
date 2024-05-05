@@ -67,3 +67,24 @@
   background: #fff;
   width: auto;
 }
+
+/* Plane Animation ============= */
+.planeBtn:hover .hoverPlane {
+  animation: plane 1s 1 both;
+  transition: all 1s;
+}
+
+@keyframes plane {
+  0% {
+    transform: rotate(0deg) translateX(0) scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: rotate(35deg) translateX(20px) scale(2);
+    opacity: 0.5;
+  }
+  100% {
+    transform: rotate(0deg) translateX(100px) scale(2);
+    opacity: 0;
+  }
+}

@@ -17,7 +17,7 @@ const Page = () => {
           Edit
         </Link>
         <Link
-          href={"#"}
+          href={"/dashboard/profile/update-password"}
           className="absolute cursor-pointer top-6 right-24 border rounded-md text-gray-600 bg-gray-100  border-gray-200 hover:text-indigo-600 hover:bg-gray-50 gap-1 text-sm flex items-center px-3 py-1 transition-all duration-150"
         >
           <i className="fa-solid fa-floppy-disk"></i>

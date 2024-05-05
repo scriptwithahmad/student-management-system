@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 
-const index = () => {
+const Page = () => {
   const ripple = new Ripple();
   const [loading, setLoading] = useState(false);
   const { register, handleSubmit, reset } = useForm();
@@ -100,4 +100,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default Page;
