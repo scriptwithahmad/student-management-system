@@ -1,7 +1,6 @@
 import { JWTVerify } from "@/helpers/jwt";
-import studentsModel from "@/models/students";
 import dbConnect from "@/config/dbConnect";
-
+import batchsModel from "@/models/batchs";
 
 export default async function handler(req, res) {
   dbConnect();
@@ -9,12 +8,13 @@ export default async function handler(req, res) {
   try {
     var token = req.cookies.AccessToken || "";
     var id = (await JWTVerify(token)) || req.query.id;
-    console.log(id);
 
+    const batch = await batchsModel.findById(id);
 
     res.status(200).json({
       success: true,
       message: id,
+      batch,
     });
   } catch (error) {
     if (error.kind == "ObjectId") {

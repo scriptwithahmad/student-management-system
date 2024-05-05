@@ -6,9 +6,11 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Toaster, toast } from "react-hot-toast";
 import { CldUploadWidget } from "next-cloudinary";
+import { useRouter } from "next/navigation";
 
 const Page = () => {
   const ripple = new Ripple();
+  const router = useRouter();
   const { register, handleSubmit, reset } = useForm();
   const [selectedImage, setSelectedImage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -22,7 +24,8 @@ const Page = () => {
       if (res.data.success) {
         toast.success("User Registered 👋");
         reset();
-        setSelectedImage(null); // Reset selected image after form submission
+        setSelectedImage(null);
+        router.push("/login")
       }
     } catch (error) {
       toast.error(error.response?.data?.message || "An error occurred");
@@ -86,11 +89,11 @@ const Page = () => {
 
           {/* Show selected image */}
           {selectedImage && (
-            <div className="flex items-center justify-between bg-gray-200 px-3 py-2 rounded-lg">
+            <div className="flex items-center flex-col gap-4 bg-gray-200 rounded-lg p-5">
               <img
                 src={selectedImage}
                 alt="Selected Avatar"
-                className="w-20 h-20 rounded-full"
+                className="w-24 h-24 rounded-full object-cover"
               />
               <button
                 type="button"

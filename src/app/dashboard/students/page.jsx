@@ -3,9 +3,10 @@ import axios from "axios";
 import Input from "@/components/Input";
 import { toast } from "react-hot-toast";
 import { useForm } from "react-hook-form";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Link from "next/link";
 import { format, render, cancel, register } from "timeago.js";
+import { AuthContext } from "@/context/AuthContext";
 
 const tableHeader = [
   { lable: "Name", align: "left" },
@@ -19,6 +20,7 @@ const Page = () => {
   const { register, handleSubmit, reset } = useForm();
   const [showModal, setShowModal] = useState(false);
   const [studentData, setStudentData] = useState([]);
+  const { user } = useContext(AuthContext);
 
   // DELETE STUDENT -------------------------
   // delete Student by Slug ------------------------------------------------------/
@@ -54,6 +56,16 @@ const Page = () => {
     }
   };
 
+  const [batchStudent, setBatchStudent] = useState([]);
+  const getBatchData = async () => {
+    try {
+      const res = await axios.get("/api/students/st");
+      setBatchStudent(res?.data?.user);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const [batchId, setBatchId] = useState("");
   const getbatchID = async () => {
     try {
@@ -66,6 +78,7 @@ const Page = () => {
 
   useEffect(() => {
     getbatchID();
+    getBatchData();
     getData();
   }, []);
 
@@ -79,6 +92,7 @@ const Page = () => {
         toast.success("Student Created 👋");
         reset();
         setShowModal(false);
+        window.location.reload();
       }
     } catch (error) {
       console.log(error?.response?.data?.message);
@@ -138,53 +152,101 @@ const Page = () => {
               </tr>
             </thead>
             <tbody>
-              {studentData?.map((v, i) => {
-                return (
-                  <tr
-                    key={i}
-                    className="hover:bg-slate-100 border-b border-gray-100 bg-white"
-                  >
-                    <td className="px-6 py-2">
-                      <div className="flex flex-col">
-                        <h2 className="font-semibold">{v?.fullName}</h2>
-                        <p className="text-[10px]">
-                          {format(new Date(v.createdAt), "en_US")}
-                        </p>
-                      </div>
-                    </td>
-                    <td className="px-6 py-2 flex flex-col">
-                      <h2>{v?.email}</h2>
-                      <h2>{v?.phone}</h2>
-                    </td>
-                    <td className="px-6 py-2">
-                      <h1>{v?.userBatchDetails?.batchName}</h1>
-                      <h1>{v?.userBatchDetails?.userName}</h1>
-                    </td>
-
-                    <td className="px-6 py-2 text-lg text-center">
-                      <button>
-                        <i
-                          title="View"
-                          className="fa fa-solid fa-eye px-2 py-1 cursor-pointer hover:bg-gray-100 rounded-full text-gray-400 text-sm"
-                        ></i>
-                      </button>
-                      <Link
-                        href={`/dashboard/students/edit-students/${v?._id}`}
+              {user
+                ? studentData?.map((v, i) => {
+                    return (
+                      <tr
+                        key={i}
+                        className="hover:bg-slate-100 border-b border-gray-100 bg-white"
                       >
-                        <i
-                          title="Edit Student"
-                          className="fa-solid fa-pen-to-square px-2 py-1 cursor-pointer hover:bg-gray-100 rounded-full text-gray-400 text-sm"
-                        ></i>
-                      </Link>
-                      <i
-                        title="Delete"
-                        onClick={() => delPost(v?._id)}
-                        className="fa fa-solid fa-trash px-2 py-1 cursor-pointer hover:bg-gray-100 rounded-full text-red-400 text-sm"
-                      ></i>
-                    </td>
-                  </tr>
-                );
-              })}
+                        <td className="px-6 py-2">
+                          <div className="flex flex-col">
+                            <h2 className="font-semibold">{v?.fullName}</h2>
+                            <p className="text-[10px]">
+                              {format(new Date(v.createdAt), "en_US")}
+                            </p>
+                          </div>
+                        </td>
+                        <td className="px-6 py-2 flex flex-col">
+                          <h2>{v?.email}</h2>
+                          <h2>{v?.phone}</h2>
+                        </td>
+                        <td className="px-6 py-2">
+                          <h1>{v?.userBatchDetails?.batchName}</h1>
+                          <h1>{v?.userBatchDetails?.userName}</h1>
+                        </td>
+
+                        <td className="px-6 py-2 text-lg text-center">
+                          <button>
+                            <i
+                              title="View"
+                              className="fa fa-solid fa-eye px-2 py-1 cursor-pointer hover:bg-gray-100 rounded-full text-gray-400 text-sm"
+                            ></i>
+                          </button>
+                          <Link
+                            href={`/dashboard/students/edit-students/${v?._id}`}
+                          >
+                            <i
+                              title="Edit Student"
+                              className="fa-solid fa-pen-to-square px-2 py-1 cursor-pointer hover:bg-gray-100 rounded-full text-gray-400 text-sm"
+                            ></i>
+                          </Link>
+                          <i
+                            title="Delete"
+                            onClick={() => delPost(v?._id)}
+                            className="fa fa-solid fa-trash px-2 py-1 cursor-pointer hover:bg-gray-100 rounded-full text-red-400 text-sm"
+                          ></i>
+                        </td>
+                      </tr>
+                    );
+                  })
+                : batchStudent?.map((v, i) => {
+                    return (
+                      <tr
+                        key={i}
+                        className="hover:bg-slate-100 border-b border-gray-100 bg-white"
+                      >
+                        <td className="px-6 py-2">
+                          <div className="flex flex-col">
+                            <h2 className="font-semibold">{v?.fullName}</h2>
+                            <p className="text-[10px]">
+                              {format(new Date(v.createdAt), "en_US")}
+                            </p>
+                          </div>
+                        </td>
+                        <td className="px-6 py-2 flex flex-col">
+                          <h2>{v?.email}</h2>
+                          <h2>{v?.phone}</h2>
+                        </td>
+                        <td className="px-6 py-2">
+                          <h1>{v?.userBatchDetails?.batchName}</h1>
+                          <h1>{v?.userBatchDetails?.userName}</h1>
+                        </td>
+
+                        <td className="px-6 py-2 text-lg text-center">
+                          <button>
+                            <i
+                              title="View"
+                              className="fa fa-solid fa-eye px-2 py-1 cursor-pointer hover:bg-gray-100 rounded-full text-gray-400 text-sm"
+                            ></i>
+                          </button>
+                          <Link
+                            href={`/dashboard/students/edit-students/${v?._id}`}
+                          >
+                            <i
+                              title="Edit Student"
+                              className="fa-solid fa-pen-to-square px-2 py-1 cursor-pointer hover:bg-gray-100 rounded-full text-gray-400 text-sm"
+                            ></i>
+                          </Link>
+                          <i
+                            title="Delete"
+                            onClick={() => delPost(v?._id)}
+                            className="fa fa-solid fa-trash px-2 py-1 cursor-pointer hover:bg-gray-100 rounded-full text-red-400 text-sm"
+                          ></i>
+                        </td>
+                      </tr>
+                    );
+                  })}
             </tbody>
           </table>
           {/* Pagination start  ----------- */}

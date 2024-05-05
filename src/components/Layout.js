@@ -67,10 +67,7 @@ export default function Layout({ children }) {
             </div>
           </div>
         ) : (
-          <div>
-            <h1>Navbar Here</h1>
-            {children}
-          </div>
+          <div>{children}</div>
         )}
       </div>
     </>

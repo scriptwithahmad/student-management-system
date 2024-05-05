@@ -2,14 +2,15 @@
 import Input from "@/components/Input";
 import axios from "axios";
 import Ripple from "material-ripple-effects";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Toaster, toast } from "react-hot-toast";
 
 const Page = () => {
+  const router = useRouter();
   const ripple = new Ripple();
   const { register, handleSubmit, reset } = useForm();
-
   const [isLoading, setIsLoading] = useState(false);
 
   const onSubmit = async (e) => {
@@ -22,6 +23,7 @@ const Page = () => {
       if (res?.data?.success) {
         toast.success("Teacher Authorized 👋");
         reset();
+        router.push("/dashboard");
       }
     } catch (error) {
       console.log(error?.response?.data?.message);
@@ -35,11 +37,14 @@ const Page = () => {
     <>
       <Toaster />
       {/* Form for contact */}
-      <div className="max-w-[600px] m-auto px-4 py-6 border rounded-lg">
+      <div className="max-w-[600px] m-auto px-4 py-6 border rounded-lg mt-8">
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="flex flex-col gap-6 w-full"
         >
+          <h1 className="text-gray-700 text-2xl font-semibold">
+            Login to Continue
+          </h1>
           <Input
             type="text"
             inputText="Enter Batch UserName"

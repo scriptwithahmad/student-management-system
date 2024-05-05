@@ -31,7 +31,6 @@ const index = () => {
   };
 
   const [batchData, setBatchData] = useState([]);
-  console.log(batchData);
 
   const fetchBatchData = async () => {
     try {

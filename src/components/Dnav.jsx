@@ -3,7 +3,7 @@ import { AuthContext } from "@/context/AuthContext";
 import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 
 const Dnav = () => {
   const { user } = useContext(AuthContext);
@@ -21,6 +21,19 @@ const Dnav = () => {
       console.error("Logout failed", error);
     }
   };
+  const [batchData, setBatchData] = useState({});
+  const getData = async () => {
+    try {
+      const res = await axios.get("/api/batch/teacher-profile");
+      setBatchData(res?.data?.batch);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
 
   return (
     <>
@@ -43,7 +56,7 @@ const Dnav = () => {
           </div>
           {/* PROFILE START ============================*/}
           <>
-            {true ? (
+            {user ? (
               <div className="flex py-2 group relative items-center gap-2 pr-4">
                 <img
                   alt="image here"
@@ -89,47 +102,17 @@ const Dnav = () => {
                 </div>
               </div>
             ) : (
-              <div className="flex py-2 group relative items-center gap-2 pr-4">
-                <img
-                  src="/user.jpeg"
-                  alt="image here"
-                  className="rounded-full h-9 w-9 object-cover cursor-pointer border border-gray-300"
-                />
+              <div className="flex py-3 group relative items-center gap-2 pr-4">
+                <div className="bg-blue-400 text-white p-1.5 rounded-full">
+                  {batchData?.userName}
+                </div>
                 <div className="leading-3">
                   <p className="text-[14px] capitalize font-medium">
-                    Not Found
+                    {batchData?.batchName}
                   </p>
                   <span className="text-[11px] cursor-pointer text-red-500 hover:text-red-600">
-                    User
+                    {batchData?.userName}
                   </span>
-                </div>
-
-                {/* Profile Model Here  */}
-                <div
-                  className={`shade pointer-events-none group-hover:pointer-events-auto group-hover:opacity-100 opacity-0 group-hover:top-[100%] transition-all duration-500 bg-white absolute left-0 top-[130%] overflow-hidden rounded-md h-fit min-w-[100px] z-[1000000]`}
-                >
-                  <ul className="px-4 py-4">
-                    <li className="flex flex-col gap-2">
-                      <Link
-                        className="text-xs text-gray-600 hover:text-blue-600 flex items-center gap-2"
-                        href="/dashboard/profile"
-                      >
-                        <i className="fa-solid fa-user"></i> Profile
-                      </Link>
-                      <Link
-                        className="text-xs text-gray-600 hover:text-blue-600 flex items-center gap-2"
-                        href="/"
-                      >
-                        <i className="fa-solid fa-gear"></i> Setting
-                      </Link>
-                      <button
-                        onClick={handleLogout}
-                        className="text-xs text-gray-600 hover:text-blue-600 flex items-center gap-2"
-                      >
-                        <i className="fa-solid fa-gear"></i> Logout
-                      </button>
-                    </li>
-                  </ul>
                 </div>
               </div>
             )}

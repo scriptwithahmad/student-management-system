@@ -1,6 +1,7 @@
+import { AuthContext } from "@/context/AuthContext";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 // ASIDE LINKS ADDED
 var adminNavLinks = [
@@ -15,26 +16,18 @@ var adminNavLinks = [
 ];
 
 var userNavLinks = [
+  { href: "/dashboard", lable: "Dashboard", icon: "fa-solid fa-chart-simple" },
+
   {
-    lable: "Dashboard",
-    href: "/dashboard/user-portal",
-    icon: "fa-solid fa-chart-simple",
-  },
-  {
-    lable: "Account",
-    href: "/dashboard/profile",
-    icon: "fa-solid fa-list",
-  },
-  {
-    lable: "Orders",
-    href: "/dashboard/user-portal/order",
+    href: "/dashboard/students",
+    lable: "Students",
     icon: "fa-regular fa-calendar",
   },
 ];
 
 const Aside = () => {
   const pathname = usePathname();
-
+  const { user } = useContext(AuthContext);
   const [toggle, setToggle] = useState(true);
 
   // set the Toggle Value False if window width should be md, or sm -------
@@ -71,7 +64,7 @@ const Aside = () => {
     >
       <div className="flex flex-col relative">
         <div className="flex flex-1 flex-col justify-between h-full my-4">
-          {true ? (
+          {user ? (
             <ul className="text-sm">
               {adminNavLinks.map((v, i) => {
                 return (
